@@ -14,7 +14,12 @@ var person = {
 var eden = require("eden");
 eden('.person [h1.name ul [li.age li.weight]]', {
 	appendTo: "body",
-	reactTo: person
+	reactTo: person,
+	reactWith: {
+		name: function(el, name) {
+			el.textContent = name + "!!"
+		}
+	}
 });
 
 eden('button {text "change person"}', {css: {color: "red"}, appendTo: "body"}, function() {

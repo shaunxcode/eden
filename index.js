@@ -110,7 +110,7 @@
     elAttrs = {};
     for (k in options) {
       v = options[k];
-      if (k !== "appendTo" && k !== "onCreate" && k !== "defaultTag" && k !== "self" && k !== "reactTo") {
+      if (k !== "appendTo" && k !== "onCreate" && k !== "defaultTag" && k !== "self" && k !== "reactTo" && k !== "reactWith") {
         elAttrs[k] = v;
       }
     }
@@ -205,7 +205,7 @@
       _ref.apply(env, tags);
     }
     if (options.reactTo) {
-      reactive(rootTag[0], options.reactTo);
+      reactive(rootTag[0], options.reactTo, options.reactWith || {});
     }
     return rootTag;
   };

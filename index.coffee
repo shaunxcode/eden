@@ -76,7 +76,7 @@ eden = (str, options = {}, onCreate) ->
 
 	elAttrs = {}
 	
-	for k, v of options when k not in ["appendTo", "onCreate", "defaultTag", "self", "reactTo"]
+	for k, v of options when k not in ["appendTo", "onCreate", "defaultTag", "self", "reactTo", "reactWith"]
 		elAttrs[k] = v
 		
 	env = {}
@@ -140,7 +140,7 @@ eden = (str, options = {}, onCreate) ->
 	rootTag = handleTags (prepTags edn.toJS(edn.parse str), options.defaultTag), (appendTo or $()), appendTo is false
 	env._ = options.self
 	options.onCreate?.apply env, tags
-	if options.reactTo then reactive rootTag[0], options.reactTo
+	if options.reactTo then reactive rootTag[0], options.reactTo, options.reactWith or {}
 	rootTag
 
 module.exports = eden
