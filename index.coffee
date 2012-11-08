@@ -8,23 +8,18 @@ parseTag = (str, defaultTag) ->
 
 	if "#" in str
 		[tag, rest] = str.split "#"
-		
-		if not tag.length
-			tag = defaultTag
-		
 		[id, klass...] = rest.split "."
 	else if "." in str
 		id = false
-		
 		[tag, klass...] = str.split "."
-		
-		if not tag.length 
-			tag = defaultTag
 	else
 		tag = str
 		id = false
 		klass = false
-
+		
+	if not tag.length
+		tag = defaultTag
+		
 	if id[0] is "@"
 		bindTo.id = true 
 		id = id[1..-1]
@@ -51,7 +46,7 @@ prepTags = (taglist, defaultTag) ->
 	last = false
 	for t in taglist
 		if _.isArray t
-			prepped.push last = prepTags t
+			prepped.push last = prepTags t, defaultTag
 		else if (not _.isArray t) and _.isObject t
 			if not last
 				throw "trying to apply options without a prior element"

@@ -21,20 +21,17 @@
     };
     if (__indexOf.call(str, "#") >= 0) {
       _ref = str.split("#"), tag = _ref[0], rest = _ref[1];
-      if (!tag.length) {
-        tag = defaultTag;
-      }
       _ref1 = rest.split("."), id = _ref1[0], klass = 2 <= _ref1.length ? __slice.call(_ref1, 1) : [];
     } else if (__indexOf.call(str, ".") >= 0) {
       id = false;
       _ref2 = str.split("."), tag = _ref2[0], klass = 2 <= _ref2.length ? __slice.call(_ref2, 1) : [];
-      if (!tag.length) {
-        tag = defaultTag;
-      }
     } else {
       tag = str;
       id = false;
       klass = false;
+    }
+    if (!tag.length) {
+      tag = defaultTag;
     }
     if (id[0] === "@") {
       bindTo.id = true;
@@ -74,7 +71,7 @@
     for (_i = 0, _len = taglist.length; _i < _len; _i++) {
       t = taglist[_i];
       if (_.isArray(t)) {
-        prepped.push(last = prepTags(t));
+        prepped.push(last = prepTags(t, defaultTag));
       } else if ((!_.isArray(t)) && _.isObject(t)) {
         if (!last) {
           throw "trying to apply options without a prior element";

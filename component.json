@@ -2,7 +2,7 @@
   "name": "eden",
   "repo": "shaunxcode/eden",
   "description": "jquery fragment creation utility",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [
     "jquery",
     "dom",
