@@ -2,13 +2,20 @@
   "name": "eden",
   "repo": "shaunxcode/eden",
   "description": "jquery fragment creation utility",
-  "version": "0.0.1",
-  "keywords": ["jquery", "dom", "fragment", "dsl", "edn"],
+  "version": "0.0.2",
+  "keywords": [
+    "jquery",
+    "dom",
+    "fragment",
+    "dsl",
+    "edn",
+    "reactive"
+  ],
   "dependencies": {
     "component/jquery": "*",
     "component/underscore": "*",
     "shaunxcode/jsedn": "*",
-    "component/emitter": "*"
+    "component/reactive": "*"
   },
   "development": {},
   "scripts": [

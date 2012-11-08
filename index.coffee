@@ -1,6 +1,7 @@
 $ = require "jquery"
 _ = require "underscore"
 edn = require "jsedn"
+reactive = require "reactive"
 
 parseTag = (str, defaultTag) ->
 	bindTo = {id: false, class: [], tag: false}
@@ -75,18 +76,18 @@ eden = (str, options = {}, onCreate) ->
 
 	elAttrs = {}
 	
-	for k, v of options when k not in ["appendTo", "onCreate", "defaultTag", "self"]
+	for k, v of options when k not in ["appendTo", "onCreate", "defaultTag", "self", "reactTo"]
 		elAttrs[k] = v
 		
 	env = {}
 	tags = []
 
-	reifyOptions = (options, env, listeners, path = []) ->
+	reifyOptions = (options, env, path = []) ->
 		result = {}
 		for key, value of options
 			key = key.replace /\:/g, ""
 			if _.isObject value
-				reified = reifyOptions value, env, listeners, path.concat [key]
+				reified = reifyOptions value, env, path.concat [key]
 				if _.size reified 
 					result[key] = reified
 			else if value[0] is "@"
@@ -94,12 +95,9 @@ eden = (str, options = {}, onCreate) ->
 				for part in value[1..-1].split "."
 					val = val[part]
 
-				if val.broadcaster?
-					listeners.push path: (path.concat [key]), fn: val
-				else
-					if _.isFunction val
-						val = _.bind val, env
-					result[key] = val	
+				if _.isFunction val
+					val = _.bind val, env
+				result[key] = val	
 			else
 				result[key] = value
 		result
@@ -110,9 +108,7 @@ eden = (str, options = {}, onCreate) ->
 			if _.isArray tag
 				handleTags tag, $tag
 			else
-				listenTo = []
-				reified = reifyOptions _.extend(tag.options, elAttrs, arrOptions), options.self, listenTo
-				console.log listenTo, reified
+				reified = reifyOptions _.extend(tag.options, elAttrs, arrOptions), options.self
 				tags.push $tag = $("<#{tag.tagName}/>", reified)
 				
 				if isRoot
@@ -144,6 +140,7 @@ eden = (str, options = {}, onCreate) ->
 	rootTag = handleTags (prepTags edn.toJS(edn.parse str), options.defaultTag), (appendTo or $()), appendTo is false
 	env._ = options.self
 	options.onCreate?.apply env, tags
+	if options.reactTo then reactive rootTag[0], options.reactTo
 	rootTag
 
 module.exports = eden

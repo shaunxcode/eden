@@ -28,15 +28,20 @@ Yields:
 	[
 		"ul.@person", [
 			"li.@age", text: "@model.age"
+		]
 	]
+
 Children are nested inside of a vector/array syntax and attributes are passed as a map. The keys in the map may be pre/post fixed with : - this is ignored. e.g. text, :text, text: and :text: are all equivelant. The main string itself may optionally be wrapped in a vector as well.
 
 The second param ```{self: this}``` provides the context for the @ bindings. If you specify a handler on an event like click: it will be bound to the self context. 
 
 The view now also has jquery handles of $person, $age, and $weight (anywhere the @ syntax is used directy after the start of an id or class declaration or at the start of a tag). 
 
+##ReactTo
+If you pass an object to reactTo which implements Emitter it will be bound utilized Reactive. 
+
 ##Argument Arities
-```eden tagString, [{self, appendTo, onCreate, defaultTag, [any valid jquery options you could pass when creating a tag]}]```
+```eden tagString, [{self, appendTo, onCreate, defaultTag, reactTo, [any valid jquery options you could pass when creating a tag]}]```
 
 ```eden tagString, onCreate```
 
